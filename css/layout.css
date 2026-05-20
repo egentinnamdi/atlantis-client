@@ -1,0 +1,120 @@
+/* ================================================================
+   layout.css  –  CSS variables, body reset, main layout structure
+   ================================================================ */
+
+/* ── Design Tokens ── */
+:root {
+  /* Primary purple (Mediqu brand) */
+  --primary:        #7b2fbe;
+  --primary-light:  #f0e6fa;
+  --primary-dark:   #5a1f96;
+
+  /* Accent red (logo cross) */
+  --accent:         #e83e8c;
+
+  /* Greens / status */
+  --success:        #209f84;
+  --warning:        #f0a500;
+  --danger:         #ee3232;
+  --info:           #2d28ff;
+
+  /* Backgrounds */
+  --bg-body:        #f4f5f9;
+  --bg-card:        #ffffff;
+  --bg-sidebar:     #ffffff;
+  --bg-header:      #ffffff;
+
+  /* Text */
+  --text-heading:   #374557;
+  --text-body:      #6e6e6e;
+  --text-muted:     #a0a0a0;
+  --text-nav:       #7e7e7e;
+  --text-nav-hover: #374557;
+
+  /* Borders */
+  --border:         #eeeeee;
+
+  /* Layout sizes */
+  --sidebar-width:  260px;
+  --header-height:  70px;
+  --radius-card:    12px;
+
+  /* Shadows */
+  --shadow-card:    0 2px 16px rgba(0, 0, 0, 0.06);
+  --shadow-header:  0 2px 12px rgba(0, 0, 0, 0.05);
+
+  /* Transitions */
+  --transition:     all 0.25s ease;
+}
+
+/* ── Dark Theme Overrides ── */
+[data-theme="dark"] {
+  --bg-body:        #1d2333;
+  --bg-card:        #242c3d;
+  --bg-sidebar:     #1a2236;
+  --bg-header:      #242c3d;
+  --text-heading:   #e0e0e0;
+  --text-body:      #a9b0c0;
+  --text-muted:     #6b7280;
+  --text-nav:       #8899aa;
+  --text-nav-hover: #ffffff;
+  --border:         #2d3748;
+  --shadow-card:    0 2px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Base Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  background: var(--bg-body);
+  color: var(--text-body);
+  transition: background var(--transition), color var(--transition);
+  overflow-x: hidden;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ── Layout Shell ── */
+.main-wrapper {
+  margin-left: var(--sidebar-width);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
+
+/* When sidebar is collapsed */
+body.sidebar-collapsed .main-wrapper {
+  margin-left: 80px;
+}
+
+/* ── Page content ── */
+.content-body {
+  flex: 1;
+  padding: 30px 28px;
+  margin-top: var(--header-height);
+}
+
+/* ── Footer ── */
+.app-footer {
+  padding: 18px 28px;
+  font-size: 13px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .main-wrapper { margin-left: 0; }
+  .content-body { padding: 20px 16px; }
+}

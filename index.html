@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlantis - Hospital Admin Dashboard</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- App CSS -->
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+  </head>
+
+  <body data-theme="light">
+    <!-- ── Sidebar ── -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <a href="index.html" class="logo-link">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="6" fill="#e83e8c" />
+              <path
+                d="M14 6v16M6 14h16"
+                stroke="#fff"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <span class="logo-text">Atlan<strong>tis</strong></span>
+        </a>
+        <button
+          class="sidebar-toggle-btn"
+          id="sidebarToggle"
+          aria-label="Toggle sidebar"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Nav Menu -->
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-submenu open active">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-th-large"></i></span>
+              <span class="nav-label">Dashboard</span>
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li class="active"><a href="index.html">Dashboard Light</a></li>
+              <li><a href="#">Dashboard Dark</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user-md"></i></span>
+              <span class="nav-label">Doctors</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-gem"></i></span>
+              <span class="nav-label">Doctors Details</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-heart"></i></span>
+              <span class="nav-label">Doctors Review</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user-injured"></i></span>
+              <span class="nav-label">Patient Details</span>
+            </a>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user"></i></span>
+              <span class="nav-label">Profile</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Projects</a></li>
+              <li><a href="#">Documents</a></li>
+              <li><a href="#">Activity</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-cog"></i></span>
+              <span class="nav-label">Account</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Security</a></li>
+              <li><a href="#">Billing</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-th"></i></span>
+              <span class="nav-label">Apps</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Calendar</a></li>
+              <li><a href="#">Email</a></li>
+              <li><a href="#">Chat</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Docs Button -->
+      <div class="sidebar-footer">
+        <a href="#" class="docs-btn">
+          <i class="fas fa-external-link-alt me-2"></i>Docs &amp; Components
+        </a>
+      </div>
+    </aside>
+    <!-- ── End Sidebar ── -->
+
+    <!-- ── Main Wrapper ── -->
+    <div class="main-wrapper" id="mainWrapper">
+      <!-- ── Top Header ── -->
+      <header class="top-header" id="topHeader">
+        <div class="header-inner">
+          <!-- Left: Page title -->
+          <div class="header-left">
+            <button
+              class="hamburger-btn"
+              id="hamburgerBtn"
+              aria-label="Toggle menu"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+            <span class="page-title">Dashboard</span>
+          </div>
+
+          <!-- Right: Actions -->
+          <ul class="header-actions">
+            <!-- Plus / Add -->
+            <li>
+              <button class="action-btn text-danger" aria-label="Add">
+                <i class="fas fa-plus"></i>
+              </button>
+            </li>
+
+            <!-- Theme toggle -->
+            <li>
+              <button
+                class="action-btn"
+                id="themeToggleBtn"
+                aria-label="Toggle theme"
+              >
+                <i class="fas fa-moon" id="themeIcon"></i>
+              </button>
+            </li>
+
+            <!-- Fullscreen -->
+            <li class="d-none d-sm-block">
+              <button
+                class="action-btn"
+                id="fullscreenBtn"
+                aria-label="Fullscreen"
+              >
+                <i class="fas fa-expand"></i>
+              </button>
+            </li>
+
+            <!-- Apps grid -->
+            <li>
+              <button class="action-btn" aria-label="Apps">
+                <i class="fas fa-th"></i>
+              </button>
+            </li>
+
+            <!-- Notifications -->
+            <li class="dropdown">
+              <button
+                class="action-btn position-relative"
+                data-bs-toggle="dropdown"
+                aria-label="Notifications"
+              >
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end notif-dropdown">
+                <h6 class="dropdown-header">Notifications</h6>
+                <div class="notif-list">
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-primary">DM</div>
+                    <div class="notif-text">
+                      <p>Dr. sultads sent you a photo</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-success">KG</div>
+                    <div class="notif-text">
+                      <p>Report created successfully</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-warning">
+                      <i class="fas fa-home"></i>
+                    </div>
+                    <div class="notif-text">
+                      <p>Reminder: Treatment Time!</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                </div>
+                <a href="#" class="notif-footer"
+                  >See all notifications <i class="fas fa-arrow-right ms-1"></i
+                ></a>
+              </div>
+            </li>
+
+            <!-- Profile -->
+            <li class="dropdown">
+              <a href="#" class="profile-btn" data-bs-toggle="dropdown">
+                <div class="profile-info">
+                  <span class="profile-name">David Morse</span>
+                  <small class="profile-role">ADMIN</small>
+                </div>
+                <img
+                  src="https://i.pravatar.cc/40?img=47"
+                  alt="Profile"
+                  class="profile-avatar"
+                />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                <li>
+                  <div class="py-2 px-3 d-flex align-items-center">
+                    <img
+                      src="https://i.pravatar.cc/40?img=47"
+                      class="rounded-circle me-2"
+                      width="36"
+                      height="36"
+                      alt=""
+                    />
+                    <div>
+                      <h6 class="mb-0 fs-6">Johndoe</h6>
+                      <small class="text-muted">Super Admin</small>
+                    </div>
+                  </div>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-user me-2 text-primary"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-chart-pie me-2 text-primary"></i>My
+                    Project <span class="badge bg-primary ms-1">4</span></a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-envelope me-2 text-primary"></i>Message</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-bell me-2 text-primary"></i
+                    >Notification</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-cog me-2 text-primary"></i>Settings</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="#"
+                    ><i class="fas fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <!-- ── End Header ── -->
+
+      <!-- ── Page Content ── -->
+      <main class="content-body">
+        <div class="container-fluid">
+          <!-- Welcome + Search -->
+          <div
+            class="d-flex flex-wrap align-items-start justify-content-between mb-4 gap-3"
+          >
+            <div>
+              <h3 class="welcome-title">Welcome to Atlantis!</h3>
+              <p class="welcome-sub mb-0">Hospital Admin Dashboard Template</p>
+            </div>
+            <div class="search-area">
+              <input
+                type="text"
+                class="form-control search-input"
+                placeholder="Search here"
+              />
+              <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+          </div>
+
+          <!-- Charts Row
+          <div class="row g-4 mb-4">
+            Recovered Chart
+            <div class="col-xl-6 col-lg-6 col-md-6">
+              <div class="card dash-card h-100">
+                <div class="card-header border-0 pb-0">
+                  <h5 class="card-title">Recovered</h5>
+                  <div class="dropdown">
+                    <button class="btn-dots" data-bs-toggle="dropdown">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#">Edit</a></li>
+                      <li><a class="dropdown-item" href="#">Delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="chart-legend d-flex gap-4 mb-3">
+                    <div class="legend-item">
+                      <span class="legend-dot bg-danger"></span>
+                      <div>
+                        <small>New</small>
+                        <h5 class="mb-0">451</h5>
+                      </div>
+                    </div>
+                    <div class="legend-item">
+                      <span class="legend-dot bg-success"></span>
+                      <div>
+                        <small>Recovered</small>
+                        <h5 class="mb-0">623</h5>
+                      </div>
+                    </div>
+                  </div>
+                  <canvas id="recoveredChart" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+
+            Visitors Chart
+            <div class="col-xl-6 col-lg-6 col-md-6">
+              <div class="card dash-card h-100">
+                <div class="card-header border-0 pb-0">
+                  <h5 class="card-title">Visitors</h5>
+                  <div class="dropdown">
+                    <button class="btn-dots" data-bs-toggle="dropdown">
+                      <i class="fas fa-ellipsis-h"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item" href="#">Edit</a></li>
+                      <li><a class="dropdown-item" href="#">Delete</a></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <canvas id="visitorsChart" height="230"></canvas>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <!-- Stats Cards Row -->
+          <div class="row g-4 mb-4">
+            <div class="col-xl-3 col-sm-6">
+              <div class="card stat-card stat-primary">
+                <div class="card-body">
+                  <div class="stat-icon"><i class="fas fa-user-md"></i></div>
+                  <div class="stat-info">
+                    <h3>284</h3>
+                    <p>Total Doctors</p>
+                  </div>
+                  <span class="stat-badge badge-up">+12%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+              <div class="card stat-card stat-success">
+                <div class="card-body">
+                  <div class="stat-icon"><i class="fas fa-procedures"></i></div>
+                  <div class="stat-info">
+                    <h3>1,420</h3>
+                    <p>Total Patients</p>
+                  </div>
+                  <span class="stat-badge badge-up">+8%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+              <div class="card stat-card stat-warning">
+                <div class="card-body">
+                  <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div class="stat-info">
+                    <h3>96</h3>
+                    <p>Appointments</p>
+                  </div>
+                  <span class="stat-badge badge-down">-3%</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-xl-3 col-sm-6">
+              <div class="card stat-card stat-danger">
+                <div class="card-body">
+                  <div class="stat-icon"><i class="fas fa-heartbeat"></i></div>
+                  <div class="stat-info">
+                    <h3>623</h3>
+                    <p>Recovered</p>
+                  </div>
+                  <span class="stat-badge badge-up">+18%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent Patients Table -->
+          <div class="row g-4">
+            <div class="col-xl-8">
+              <div class="card dash-card">
+                <div class="card-header border-0">
+                  <h5 class="card-title">Recent Patients</h5>
+                  <a href="#" class="btn btn-sm btn-primary">View All</a>
+                </div>
+                <div class="card-body p-0">
+                  <div class="table-responsive">
+                    <table class="table table-hover patients-table mb-0">
+                      <thead>
+                        <tr>
+                          <th>Patient</th>
+                          <th>Disease</th>
+                          <th>Date</th>
+                          <th>Doctor</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <img
+                                src="https://i.pravatar.cc/32?img=11"
+                                class="avatar-xs rounded-circle"
+                                alt=""
+                              />Michael Hart
+                            </div>
+                          </td>
+                          <td>Cardiology</td>
+                          <td>May 12, 2025</td>
+                          <td>Dr. Stevens</td>
+                          <td>
+                            <span class="status-badge success">Recovered</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <img
+                                src="https://i.pravatar.cc/32?img=22"
+                                class="avatar-xs rounded-circle"
+                                alt=""
+                              />Sarah Collins
+                            </div>
+                          </td>
+                          <td>Neurology</td>
+                          <td>May 14, 2025</td>
+                          <td>Dr. Nguyen</td>
+                          <td>
+                            <span class="status-badge warning"
+                              >In Progress</span
+                            >
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <img
+                                src="https://i.pravatar.cc/32?img=33"
+                                class="avatar-xs rounded-circle"
+                                alt=""
+                              />James Wright
+                            </div>
+                          </td>
+                          <td>Orthopedics</td>
+                          <td>May 15, 2025</td>
+                          <td>Dr. Patel</td>
+                          <td>
+                            <span class="status-badge danger">Critical</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <img
+                                src="https://i.pravatar.cc/32?img=44"
+                                class="avatar-xs rounded-circle"
+                                alt=""
+                              />Emma Brown
+                            </div>
+                          </td>
+                          <td>Pediatrics</td>
+                          <td>May 16, 2025</td>
+                          <td>Dr. Kim</td>
+                          <td>
+                            <span class="status-badge success">Recovered</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="d-flex align-items-center gap-2">
+                              <img
+                                src="https://i.pravatar.cc/32?img=55"
+                                class="avatar-xs rounded-circle"
+                                alt=""
+                              />Liam Torres
+                            </div>
+                          </td>
+                          <td>Dermatology</td>
+                          <td>May 17, 2025</td>
+                          <td>Dr. Martin</td>
+                          <td>
+                            <span class="status-badge warning"
+                              >In Progress</span
+                            >
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upcoming Appointments -->
+            <div class="col-xl-4">
+              <div class="card dash-card">
+                <div class="card-header border-0">
+                  <h5 class="card-title">Appointments</h5>
+                  <a href="#" class="btn btn-sm btn-outline-primary">See All</a>
+                </div>
+                <div class="card-body">
+                  <ul class="appointment-list">
+                    <li class="appt-item">
+                      <img
+                        src="https://i.pravatar.cc/36?img=5"
+                        class="appt-avatar rounded-circle"
+                        alt=""
+                      />
+                      <div class="appt-info">
+                        <h6>Dr. Amanda Liu</h6>
+                        <small>Cardiology · 09:00 AM</small>
+                      </div>
+                      <span class="appt-day">Mon</span>
+                    </li>
+                    <li class="appt-item">
+                      <img
+                        src="https://i.pravatar.cc/36?img=16"
+                        class="appt-avatar rounded-circle"
+                        alt=""
+                      />
+                      <div class="appt-info">
+                        <h6>Dr. James Okonkwo</h6>
+                        <small>Neurology · 11:30 AM</small>
+                      </div>
+                      <span class="appt-day">Tue</span>
+                    </li>
+                    <li class="appt-item">
+                      <img
+                        src="https://i.pravatar.cc/36?img=27"
+                        class="appt-avatar rounded-circle"
+                        alt=""
+                      />
+                      <div class="appt-info">
+                        <h6>Dr. Priya Sharma</h6>
+                        <small>Pediatrics · 02:00 PM</small>
+                      </div>
+                      <span class="appt-day">Wed</span>
+                    </li>
+                    <li class="appt-item">
+                      <img
+                        src="https://i.pravatar.cc/36?img=38"
+                        class="appt-avatar rounded-circle"
+                        alt=""
+                      />
+                      <div class="appt-info">
+                        <h6>Dr. Carlos Vega</h6>
+                        <small>Orthopedics · 04:15 PM</small>
+                      </div>
+                      <span class="appt-day">Thu</span>
+                    </li>
+                    <li class="appt-item">
+                      <img
+                        src="https://i.pravatar.cc/36?img=49"
+                        class="appt-avatar rounded-circle"
+                        alt=""
+                      />
+                      <div class="appt-info">
+                        <h6>Dr. Nina Walsh</h6>
+                        <small>Dermatology · 10:00 AM</small>
+                      </div>
+                      <span class="appt-day">Fri</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End Content Rows -->
+        </div>
+      </main>
+      <!-- ── End Page Content ── -->
+
+      <!-- Footer -->
+      <footer class="app-footer">
+        <span>© 2025 Mediqu. All Rights Reserved.</span>
+      </footer>
+    </div>
+    <!-- ── End Main Wrapper ── -->
+
+    <!-- Mobile sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <!-- App JS -->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
