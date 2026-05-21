@@ -1,0 +1,1626 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Atlantis - Doctors</title>
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+     <!-- App CSS -->
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/header.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <style>
+      /* ── Reset & Base ── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --sidebar-w: 260px;
+        --sidebar-collapsed-w: 70px;
+        --header-h: 64px;
+        --primary: #7c3aed;
+        --primary-light: #ede9fe;
+        --danger: #e83e8c;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --info: #06b6d4;
+        --text: #1e1e2d;
+        --text-muted: #6b7280;
+        --border: #e5e7eb;
+        --bg: #f4f5f7;
+        --card-bg: #ffffff;
+        --sidebar-bg: #ffffff;
+        --header-bg: #ffffff;
+        --star: #f59e0b;
+        --shadow: 0 2px 12px rgba(0,0,0,.07);
+        --radius: 12px;
+      }
+
+      body {
+        font-family: 'Poppins', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ── Main Wrapper ── */
+      .main-wrapper {
+        margin-left: var(--sidebar-w);
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        transition: margin-left .25s ease;
+      }
+
+
+      /* ── Page Content ── */
+      .content-body { 
+        flex: 1;
+         padding: 28px 24px; 
+        }
+
+      /* ── Doctors Toolbar ── */
+      .doctors-toolbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+      }
+
+      .btn-new-doctor {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--danger);
+        color: #fff;
+        font-size: .875rem;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: opacity .2s;
+        text-decoration: none;
+      }
+      .btn-new-doctor:hover { opacity: .88; color: #fff; }
+
+      .search-wrap {
+        flex: 1;
+        min-width: 200px;
+        position: relative;
+      }
+      .search-wrap input {
+        width: 100%;
+        padding: 10px 16px 10px 44px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        font-family: 'Poppins', sans-serif;
+        font-size: .875rem;
+        background: var(--card-bg);
+        color: var(--text);
+        outline: none;
+        transition: border-color .2s;
+      }
+      .search-wrap input:focus { border-color: var(--primary); }
+      .search-wrap .search-icon {
+        position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+        color: var(--text-muted); font-size: .9rem;
+      }
+      .search-wrap .search-submit {
+        position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+        background: none; border: none; cursor: pointer;
+        color: var(--text-muted); font-size: .9rem;
+      }
+
+      .filter-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 10px 18px;
+        border: 1.5px solid var(--primary);
+        border-radius: 8px;
+        background: var(--card-bg);
+        color: var(--primary);
+        font-family: 'Poppins', sans-serif;
+        font-size: .875rem;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: background .15s;
+      }
+      .filter-btn:hover { background: var(--primary-light); }
+
+      .sort-select {
+        padding: 10px 32px 10px 14px;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        background: var(--card-bg);
+        color: var(--text);
+        font-family: 'Poppins', sans-serif;
+        font-size: .875rem;
+        font-weight: 500;
+        cursor: pointer;
+        outline: none;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+      }
+
+      .view-toggle {
+        display: flex; gap: 4px;
+      }
+      .view-btn {
+        width: 40px; height: 40px;
+        display: flex; align-items: center; justify-content: center;
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        background: var(--card-bg);
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: .95rem;
+        transition: all .15s;
+      }
+      .view-btn.active {
+        background: #4b5563;
+        color: #fff;
+        border-color: #4b5563;
+      }
+      .view-btn:not(.active):hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+
+      /* ── Alpha Section ── */
+      .alpha-section { margin-bottom: 28px; }
+
+      .alpha-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        user-select: none;
+      }
+      .alpha-header:hover .alpha-letter { color: var(--primary); }
+
+      .alpha-letter {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: var(--text);
+        flex-shrink: 0;
+        transition: color .2s;
+      }
+      .alpha-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      .alpha-count {
+        font-size: .8rem;
+        color: var(--text-muted);
+        flex-shrink: 0;
+      }
+      .alpha-arrow {
+        font-size: .75rem;
+        color: var(--text-muted);
+        flex-shrink: 0;
+        transition: transform .28s ease;
+      }
+      .alpha-section.open .alpha-arrow { transform: rotate(180deg); }
+
+      /* Accordion body */
+      .alpha-body {
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height .38s ease, opacity .28s ease, padding .28s ease;
+        padding-top: 0;
+      }
+      .alpha-section.open .alpha-body {
+        max-height: 3000px;
+        opacity: 1;
+        padding-top: 12px;
+      }
+
+
+      /* ── Doctor Card ── */
+      .doctors-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+
+      @media (max-width: 900px) {
+        .doctors-grid { grid-template-columns: 1fr; }
+      }
+
+      .doctor-card {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        transition: box-shadow .2s, transform .2s;
+      }
+      .doctor-card:hover {
+        box-shadow: 0 6px 24px rgba(124,58,237,.12);
+        transform: translateY(-2px);
+      }
+
+      .doctor-photo {
+        width: 80px; height: 80px;
+        border-radius: 10px;
+        object-fit: cover;
+        flex-shrink: 0;
+        background: #f3f4f6;
+      }
+
+      .doctor-info { flex: 1; min-width: 0; }
+      .doctor-name {
+        font-size: .95rem;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .doctor-specialty {
+        font-size: .8rem;
+        font-weight: 500;
+        color: var(--primary);
+        margin-bottom: 6px;
+      }
+
+      .stars { display: flex; align-items: center; gap: 2px; }
+      .star-icon { color: var(--star); font-size: .8rem; }
+      .star-icon.half { color: var(--star); }
+      .star-icon.empty { color: #d1d5db; }
+      .reviews-count { font-size: .75rem; color: var(--text-muted); margin-left: 6px; }
+
+      .social-icons {
+        display: flex;
+        gap: 8px;
+        margin-left: auto;
+        flex-shrink: 0;
+      }
+      .social-btn {
+        width: 34px; height: 34px;
+        border-radius: 50%;
+        border: 1.5px solid var(--primary);
+        background: none;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--primary);
+        font-size: .8rem;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background .15s, color .15s;
+      }
+      .social-btn:hover { background: var(--primary); color: #fff; }
+
+
+         /* ── Dark theme ── */
+      [data-theme="dark"] {
+        --bg: #1a1a2e;
+        --card-bg: #16213e;
+        --sidebar-bg: #16213e;
+        --header-bg: #16213e;
+        --text: #e2e8f0;
+        --text-muted: #94a3b8;
+        --border: #2d3748;
+        --primary-light: rgba(124,58,237,.15);
+        --shadow: 0 2px 12px rgba(0,0,0,.3);
+      }
+
+
+      /* ── Mobile Responsiveness*/
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    z-index: 1050;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar.show {
+    left: 0;
+  }
+  
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+  
+  /* Sidebar overlay */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Content body */
+  .content-body {
+    padding: 20px 16px !important;
+  }
+  
+  .doctors-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-new-doctor {
+    grid-column: 1 / -1;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .search-wrap {
+    grid-column: 1 / -1;
+    min-width: auto;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .sort-select {
+    width: 100%;
+  }
+  
+  .view-toggle {
+    justify-content: center;
+  }
+  
+  /* Alpha section headers */
+  .alpha-header {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .alpha-letter {
+    font-size: 1.2rem;
+  }
+  
+  .alpha-count {
+    font-size: 0.7rem;
+  }
+  
+  /* Doctor cards */
+  .doctors-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  
+  .doctor-card {
+    padding: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .doctor-photo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .doctor-info {
+    flex: 1;
+    min-width: calc(100% - 82px);
+  }
+  
+  .doctor-name {
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  .doctor-specialty {
+    font-size: 0.75rem;
+  }
+  
+  .stars {
+    flex-wrap: wrap;
+  }
+  
+  .star-icon {
+    font-size: 0.7rem;
+  }
+  
+  .reviews-count {
+    font-size: 0.65rem;
+  }
+  
+  .social-icons {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+    gap: 6px;
+  }
+  
+  .social-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+  
+  .top-header .header-actions .d-none {
+    display: none !important;
+  }
+  
+  .profile-info {
+    display: none;
+  }
+  
+  .header-inner {
+    padding: 0 12px;
+  }
+  
+  .hamburger-btn {
+    display: flex !important;
+  }
+  
+  /* Page title */
+  .page-title {
+    font-size: 1rem;
+  }
+  
+  /* Footer */
+  .app-footer {
+    padding: 12px 16px;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+}
+
+/*  480px (small phones) */
+@media (max-width: 480px) {
+  .content-body {
+    padding: 16px 12px !important;
+  }
+  
+  .doctors-toolbar {
+    gap: 8px;
+  }
+  
+  .btn-new-doctor {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .filter-btn,
+  .sort-select {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+  }
+  
+  .doctor-card {
+    padding: 14px;
+  }
+  
+  .doctor-photo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .doctor-name {
+    font-size: 0.85rem;
+  }
+  
+  .alpha-letter {
+    font-size: 1rem;
+  }
+  
+  .alpha-count {
+    font-size: 0.65rem;
+  }
+  
+  /* Notification dropdown */
+  .notif-dropdown {
+    width: 280px !important;
+    right: -60px !important;
+  }
+  
+  /* Header actions spacing */
+  .header-actions {
+    gap: 8px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Landscape  */
+@media (max-width: 768px) and (orientation: landscape) {
+  .content-body {
+    padding: 16px 20px !important;
+  }
+  
+  .doctors-toolbar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn-new-doctor {
+    grid-column: auto;
+  }
+  
+  .search-wrap {
+    grid-column: auto;
+  }
+  
+  .doctor-card {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  
+  .doctor-info {
+    min-width: auto;
+  }
+  
+  .social-icons {
+    width: auto;
+    margin-left: auto;
+  }
+}
+
+/* Tablet devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .doctors-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .content-body {
+    padding: 24px 20px;
+  }
+  
+  .doctor-card {
+    padding: 18px;
+  }
+  
+  .search-wrap {
+    min-width: 150px;
+  }
+  
+  .btn-new-doctor {
+    padding: 8px 16px;
+  }
+  
+  .filter-btn,
+  .sort-select {
+    padding: 8px 14px;
+  }
+}
+
+/* Show hamburger button on mobile */
+.hamburger-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex !important;
+  }
+}
+
+.sidebar,
+.sidebar-overlay,
+.alpha-body {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .top-header {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: var(--header-bg);
+  }
+  
+  .app-footer {
+    margin-top: auto;
+  }
+}
+
+/* ── Mobile Responsiveness 768px (tablets and phones) */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: -260px;
+    z-index: 1050;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar.show {
+    left: 0;
+  }
+  
+  .main-wrapper {
+    margin-left: 0 !important;
+    width: 100%;
+  }
+  
+  /* Sidebar overlay */
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1040;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+  
+  .sidebar-overlay.show {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* Content body */
+  .content-body {
+    margin-top: 0;
+    padding: 20px 16px !important;
+  }
+  
+  .doctors-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  
+  .btn-new-doctor {
+    grid-column: 1 / -1;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .search-wrap {
+    grid-column: 1 / -1;
+    min-width: auto;
+  }
+  
+  .filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .sort-select {
+    width: 100%;
+  }
+  
+  .view-toggle {
+    justify-content: center;
+  }
+  
+  /* Alpha section headers */
+  .alpha-header {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .alpha-letter {
+    font-size: 1.2rem;
+  }
+  
+  .alpha-count {
+    font-size: 0.7rem;
+  }
+  
+  .doctors-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px;
+  }
+  
+  .doctor-card {
+    padding: 16px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .doctor-photo {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .doctor-info {
+    flex: 1;
+    min-width: calc(100% - 82px);
+  }
+  
+  .doctor-name {
+    font-size: 0.9rem;
+    white-space: normal;
+    word-break: break-word;
+  }
+  
+  .doctor-specialty {
+    font-size: 0.75rem;
+  }
+  
+  .stars {
+    flex-wrap: wrap;
+  }
+  
+  .star-icon {
+    font-size: 0.7rem;
+  }
+  
+  .reviews-count {
+    font-size: 0.65rem;
+  }
+  
+  .social-icons {
+    width: 100%;
+    justify-content: flex-start;
+    margin-left: 0;
+    gap: 6px;
+  }
+  
+  .social-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+  }
+  
+  .top-header .header-actions .d-none {
+    display: none !important;
+  }
+  
+  .profile-info {
+    display: none;
+  }
+  
+  .header-inner {
+    padding: 0 12px;
+  }
+  
+  .hamburger-btn {
+    display: flex !important;
+  }
+  
+  /* Page title */
+  .page-title {
+    font-size: 1rem;
+  }
+  
+  /* Footer */
+  .app-footer {
+    padding: 12px 16px;
+    font-size: 0.7rem;
+    text-align: center;
+  }
+}
+
+/* Devices up to 480px (small phones) */
+@media (max-width: 480px) {
+  .content-body {
+    margin-top: 0;
+    padding: 16px 12px !important;
+  }
+  
+  .doctors-toolbar {
+    gap: 8px;
+  }
+  
+  .btn-new-doctor {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+  }
+  
+  .filter-btn,
+  .sort-select {
+    padding: 8px 14px;
+    font-size: 0.75rem;
+  }
+  
+  .doctor-card {
+    padding: 14px;
+  }
+  
+  .doctor-photo {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .doctor-name {
+    font-size: 0.85rem;
+  }
+  
+  .alpha-letter {
+    font-size: 1rem;
+  }
+  
+  .alpha-count {
+    font-size: 0.65rem;
+  }
+  
+  /* Notification dropdown  */
+  .notif-dropdown {
+    width: 280px !important;
+    right: -60px !important;
+  }
+  
+  /* Header actions spacing */
+  .header-actions {
+    gap: 8px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Landscape mode for phones */
+@media (max-width: 768px) and (orientation: landscape) {
+  .content-body {
+    padding: 16px 20px !important;
+  }
+  
+  .doctors-toolbar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .btn-new-doctor {
+    grid-column: auto;
+  }
+  
+  .search-wrap {
+    grid-column: auto;
+  }
+  
+  .doctor-card {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+  
+  .doctor-info {
+    min-width: auto;
+  }
+  
+  .social-icons {
+    width: auto;
+    margin-left: auto;
+  }
+}
+
+/* Tablet devices (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .doctors-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .content-body {
+    margin-top: 0;
+    padding: 24px 20px;
+  }
+  
+  .doctor-card {
+    padding: 18px;
+  }
+  
+  .search-wrap {
+    min-width: 150px;
+  }
+  
+  .btn-new-doctor {
+    padding: 8px 16px;
+  }
+  
+  .filter-btn,
+  .sort-select {
+    padding: 8px 14px;
+  }
+}
+
+/* Show hamburger button on mobile */
+.hamburger-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex !important;
+  }
+}
+
+/* Ensure smooth transitions */
+.sidebar,
+.sidebar-overlay,
+.alpha-body {
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .top-header {
+    position: sticky;
+    top: 0;
+    z-index: 1020;
+    background: var(--header-bg);
+  }
+  
+  .app-footer {
+    margin-top: auto;
+  }
+}
+    </style>
+  </head>
+
+  <body data-theme="light">
+   <aside class="sidebar" id="sidebar">
+      <!-- Logo -->
+      <div class="sidebar-logo">
+        <a href="index.html" class="logo-link">
+          <div class="logo-icon">
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+              <rect width="28" height="28" rx="6" fill="#e83e8c" />
+              <path
+                d="M14 6v16M6 14h16"
+                stroke="#fff"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+            </svg>
+          </div>
+          <span class="logo-text">Atlan<strong>tis</strong></span>
+        </a>
+        <button
+          class="sidebar-toggle-btn"
+          id="sidebarToggle"
+          aria-label="Toggle sidebar"
+        >
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+
+      <!-- Nav Menu -->
+      <nav class="sidebar-nav">
+        <ul class="nav-list">
+          <li class="nav-item has-submenu open active">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-th-large"></i></span>
+              <span class="nav-label">Dashboard</span>
+              <i class="fas fa-chevron-down nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li class="active"><a href="index.html">Dashboard Light</a></li>
+              <li><a href="#">Dashboard Dark</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user-md"></i></span>
+              <span class="nav-label">Doctors</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-gem"></i></span>
+              <span class="nav-label">Doctors Details</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-heart"></i></span>
+              <span class="nav-label">Doctors Review</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user-injured"></i></span>
+              <span class="nav-label">Patient Details</span>
+            </a>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-user"></i></span>
+              <span class="nav-label">Profile</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Projects</a></li>
+              <li><a href="#">Documents</a></li>
+              <li><a href="#">Activity</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-cog"></i></span>
+              <span class="nav-label">Account</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Settings</a></li>
+              <li><a href="#">Security</a></li>
+              <li><a href="#">Billing</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item has-submenu">
+            <a href="#" class="nav-link">
+              <span class="nav-icon"><i class="fas fa-th"></i></span>
+              <span class="nav-label">Apps</span>
+              <i class="fas fa-chevron-right nav-arrow"></i>
+            </a>
+            <ul class="submenu">
+              <li><a href="#">Calendar</a></li>
+              <li><a href="#">Email</a></li>
+              <li><a href="#">Chat</a></li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Docs Button -->
+      <div class="sidebar-footer">
+        <a href="#" class="docs-btn">
+          <i class="fas fa-external-link-alt me-2"></i>Docs &amp; Components
+        </a>
+      </div>
+    </aside>
+    <!-- ── End Sidebar ── -->
+
+    <!-- ── Main Wrapper ── -->
+    <div class="main-wrapper" id="mainWrapper">
+      <!-- ── Top Header ── -->
+      <header class="top-header" id="topHeader">
+        <div class="header-inner">
+          <!-- Left: Page title -->
+          <div class="header-left">
+            <button
+              class="hamburger-btn"
+              id="hamburgerBtn"
+              aria-label="Toggle menu"
+            >
+              <i class="fas fa-bars"></i>
+            </button>
+            <span class="page-title">Dashboard</span>
+          </div>
+
+          <!-- Right: Actions -->
+          <ul class="header-actions">
+            <!-- Plus / Add -->
+            <li>
+              <button class="action-btn text-danger" aria-label="Add">
+                <i class="fas fa-plus"></i>
+              </button>
+            </li>
+
+            <!-- Theme toggle -->
+            <li>
+              <button
+                class="action-btn"
+                id="themeToggleBtn"
+                aria-label="Toggle theme"
+              >
+                <i class="fas fa-moon" id="themeIcon"></i>
+              </button>
+            </li>
+
+            <!-- Fullscreen -->
+            <li class="d-none d-sm-block">
+              <button
+                class="action-btn"
+                id="fullscreenBtn"
+                aria-label="Fullscreen"
+              >
+                <i class="fas fa-expand"></i>
+              </button>
+            </li>
+
+            <!-- Apps grid -->
+            <li>
+              <button class="action-btn" aria-label="Apps">
+                <i class="fas fa-th"></i>
+              </button>
+            </li>
+
+            <!-- Notifications -->
+            <li class="dropdown">
+              <button
+                class="action-btn position-relative"
+                data-bs-toggle="dropdown"
+                aria-label="Notifications"
+              >
+                <i class="fas fa-bell"></i>
+                <span class="notif-dot"></span>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end notif-dropdown">
+                <h6 class="dropdown-header">Notifications</h6>
+                <div class="notif-list">
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-primary">DM</div>
+                    <div class="notif-text">
+                      <p>Dr. sultads sent you a photo</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-success">KG</div>
+                    <div class="notif-text">
+                      <p>Report created successfully</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                  <a href="#" class="notif-item">
+                    <div class="notif-avatar bg-warning">
+                      <i class="fas fa-home"></i>
+                    </div>
+                    <div class="notif-text">
+                      <p>Reminder: Treatment Time!</p>
+                      <small>29 July - 02:26 PM</small>
+                    </div>
+                  </a>
+                </div>
+                <a href="#" class="notif-footer"
+                  >See all notifications <i class="fas fa-arrow-right ms-1"></i
+                ></a>
+              </div>
+            </li>
+
+            <!-- Profile -->
+            <li class="dropdown">
+              <a href="#" class="profile-btn" data-bs-toggle="dropdown">
+                <div class="profile-info">
+                  <span class="profile-name">David Morse</span>
+                  <small class="profile-role">ADMIN</small>
+                </div>
+                <img
+                  src="https://i.pravatar.cc/40?img=47"
+                  alt="Profile"
+                  class="profile-avatar"
+                />
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end profile-dropdown">
+                <li>
+                  <div class="py-2 px-3 d-flex align-items-center">
+                    <img
+                      src="https://i.pravatar.cc/40?img=47"
+                      class="rounded-circle me-2"
+                      width="36"
+                      height="36"
+                      alt=""
+                    />
+                    <div>
+                      <h6 class="mb-0 fs-6">Johndoe</h6>
+                      <small class="text-muted">Super Admin</small>
+                    </div>
+                  </div>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-user me-2 text-primary"></i>Profile</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-chart-pie me-2 text-primary"></i>My
+                    Project <span class="badge bg-primary ms-1">4</span></a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-envelope me-2 text-primary"></i>Message</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-bell me-2 text-primary"></i
+                    >Notification</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    ><i class="fas fa-cog me-2 text-primary"></i>Settings</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item text-danger" href="#"
+                    ><i class="fas fa-sign-out-alt me-2"></i>Logout</a
+                  >
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </header>
+      <!-- ── End Header ── -->
+
+      <!-- ── Page Content ── -->
+      <main class="content-body">
+        <!-- Toolbar -->
+        <div class="doctors-toolbar">
+          <a href="#" class="btn-new-doctor">
+            <i class="fas fa-plus"></i> New Doctor
+          </a>
+
+          <div class="search-wrap">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" placeholder="Search here"/>
+            <button class="search-submit"><i class="fas fa-search"></i></button>
+          </div>
+
+          <button class="filter-btn">
+            <i class="fas fa-sliders-h"></i> Filter
+            <i class="fas fa-chevron-down" style="font-size:.7rem;"></i>
+          </button>
+
+          <select class="sort-select">
+            <option>New</option>
+            <option>Old</option>
+            <option>A–Z</option>
+            <option>Z–A</option>
+          </select>
+
+          <div class="view-toggle">
+            <button class="view-btn" title="List view">
+              <i class="fas fa-list"></i>
+            </button>
+            <button class="view-btn active" title="Grid view">
+              <i class="fas fa-th"></i>
+            </button>
+          </div>
+        </div>
+
+       <!-- Section A -->
+        <div class="alpha-section open">
+          <div class="alpha-header">
+            <span class="alpha-letter">A</span>
+            <div class="alpha-line"></div>
+            <span class="alpha-count">5 Doctors</span>
+            <i class="fas fa-chevron-down alpha-arrow"></i>
+          </div>
+          <div class="alpha-body">
+          <div class="doctors-grid">
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=47" alt="Dr. Amelia Rose" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Amelia Rose</div>
+                <div class="doctor-specialty">Gynecologist</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star-half-alt star-icon half"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">451 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=12" alt="Dr. Henry Mason" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Henry Mason</div>
+                <div class="doctor-specialty">Physical Therapy</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star-half-alt star-icon half"></i>
+                  <span class="reviews-count">238 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=36" alt="Dr. Isabella Claire" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Isabella Claire</div>
+                <div class="doctor-specialty">Dentist</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">300 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=52" alt="Dr. Ethan Cole" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Ethan Cole</div>
+                <div class="doctor-specialty">Physical Therapy</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">451 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=25" alt="Dr. Aiden Park" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Aiden Park</div>
+                <div class="doctor-specialty">Cardiology</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star-half-alt star-icon half"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">187 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+          </div>
+          </div><!-- end alpha-body -->
+        </div>
+
+        <!-- Section B -->
+        <div class="alpha-section">
+          <div class="alpha-header">
+            <span class="alpha-letter">B</span>
+            <div class="alpha-line"></div>
+            <span class="alpha-count">3 Doctors</span>
+            <i class="fas fa-chevron-down alpha-arrow"></i>
+          </div>
+          <div class="alpha-body">
+          <div class="doctors-grid">
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=32" alt="Dr. Bella Turner" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Bella Turner</div>
+                <div class="doctor-specialty">Neurology</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <span class="reviews-count">512 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=60" alt="Dr. Brian Clark" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Brian Clark</div>
+                <div class="doctor-specialty">Orthopedics</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star-half-alt star-icon half"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">204 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=14" alt="Dr. Brandon Lee" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Brandon Lee</div>
+                <div class="doctor-specialty">Dermatology</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">329 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+          </div>
+          </div><!-- end alpha-body -->
+        </div>
+
+        <!-- Section C -->
+        <div class="alpha-section">
+          <div class="alpha-header">
+            <span class="alpha-letter">C</span>
+            <div class="alpha-line"></div>
+            <span class="alpha-count">2 Doctors</span>
+            <i class="fas fa-chevron-down alpha-arrow"></i>
+          </div>
+          <div class="alpha-body">
+          <div class="doctors-grid">
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=41" alt="Dr. Clara Mitchell" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Clara Mitchell</div>
+                <div class="doctor-specialty">Pediatrics</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star-half-alt star-icon half"></i>
+                  <span class="reviews-count">398 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+            <div class="doctor-card">
+              <img src="https://i.pravatar.cc/150?img=57" alt="Dr. Carlos Vega" class="doctor-photo"/>
+              <div class="doctor-info">
+                <div class="doctor-name">Dr. Carlos Vega</div>
+                <div class="doctor-specialty">Orthopedics</div>
+                <div class="stars">
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="fas fa-star star-icon"></i>
+                  <i class="far fa-star star-icon empty"></i>
+                  <span class="reviews-count">275 reviews</span>
+                </div>
+              </div>
+              <div class="social-icons">
+                <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+              </div>
+            </div>
+
+          </div>
+          </div><!-- end alpha-body -->
+        </div>
+
+      </main>
+      <!-- ── End Page Content ── -->
+
+         <!-- Footer -->
+      <footer class="app-footer">
+        <span>© 2025 Mediqu. All Rights Reserved.</span>
+      </footer>
+    </div>
+
+    <!-- Sidebar overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+       <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <!-- App JS -->
+    <script type="module" src="js/main.js"></script>
+
+    <script>
+
+        // Mobile sidebar toggle
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+if (hamburgerBtn && sidebar && sidebarOverlay) {
+  hamburgerBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('show');
+    sidebarOverlay.classList.toggle('show');
+  });
+  
+  sidebarOverlay.addEventListener('click', () => {
+    sidebar.classList.remove('show');
+    sidebarOverlay.classList.remove('show');
+  });
+}
+
+      document.querySelectorAll('.alpha-header').forEach(header => {
+        header.addEventListener('click', () => {
+          const thisSection = header.closest('.alpha-section');
+          const isAlreadyOpen = thisSection.classList.contains('open');
+
+          document.querySelectorAll('.alpha-section').forEach(sec => {
+            sec.classList.remove('open');
+          });
+
+          if (!isAlreadyOpen) {
+            thisSection.classList.add('open');
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
